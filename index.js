@@ -65,7 +65,7 @@ function CertDownloader(options) {
 CertDownloader.prototype.cert = function (callback) {
     var _this = this;
     var certPath = require('path').join(_this.cachePath, _this.certName);
-    if (_this.fs.exists(certPath)) {
+    if (_this.fs.existsSync(certPath)) {
         callback(null, certPath);
     } else {
         require('http').get(_this.rootUrl, function (res) {
