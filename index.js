@@ -93,7 +93,7 @@ CertDownloader.prototype.cert = function (callback) {
 CertDownloader.prototype.pem = function (callback) {
     var _this = this;
     var pemPath = require('path').join(_this.cachePath, _this.util.format('%s.pem', _this.certName.split('.')[0]));
-    if (_this.fs.exists(pemPath)) {
+    if (_this.fs.existsSync(pemPath)) {
         callback(null, pemPath);
     } else {
         _this.cert(function (error, certPath) {
@@ -101,7 +101,7 @@ CertDownloader.prototype.pem = function (callback) {
                 callback(error);
             } else {
                 var exec = require('child_process').exec;
-                var execOptions = {cwd: _this.cachePath};
+                var execOptions = { cwd: _this.cachePath };
                 var cmd = _this.util.format(
                     'openssl x509 -inform der -in "%s" -out "%s"',
                     certPath,
@@ -133,7 +133,7 @@ CertDownloader.prototype.verify = function (file, callback) {
             return callback(error);
         }
         var exec = require('child_process').exec;
-        var execOptions = {cwd: _this.cachePath};
+        var execOptions = { cwd: _this.cachePath };
         var cmd = _this.util.format(
             'openssl smime -in "%s" -inform der -verify -CAfile "%s"',
             file,
